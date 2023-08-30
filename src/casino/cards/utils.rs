@@ -2,7 +2,7 @@ use core::fmt;
 use rand::thread_rng;
 use rand::seq::SliceRandom;
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Hash)]
 pub enum Suite {
     Clubs,
     Diamonds,
@@ -16,7 +16,7 @@ impl fmt::Display for Suite {
     }
 }
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Hash)]
 pub enum Rank {
     Ace,
     King,
@@ -32,7 +32,7 @@ impl fmt::Display for Rank {
     }
 }
 
-#[derive(Debug, PartialEq, Clone)]
+#[derive(Debug, PartialEq, Eq, Clone, Hash)]
 pub struct Card {
     pub suite: Suite,
     pub rank: Rank,
