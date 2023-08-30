@@ -1,6 +1,8 @@
 use core::fmt;
+use rand::thread_rng;
+use rand::seq::SliceRandom;
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum Suite {
     CLUBS,
     DIAMONDS,
@@ -14,7 +16,7 @@ impl fmt::Display for Suite {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub enum Rank {
     ACE,
     KING,
@@ -30,7 +32,7 @@ impl fmt::Display for Rank {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Clone)]
 pub struct Card {
     pub suite: Suite,
     pub rank: Rank,
@@ -94,5 +96,48 @@ impl Card {
         };
 
         Self::new(suite, rank)
+    }
+}
+
+#[derive(Debug, PartialEq, Clone)]
+pub struct Deck {
+    pub cards: Vec<Card>,
+    pub dealt: Vec<Card>
+}
+
+impl Deck {
+    pub fn new(decks: i32) -> Self {
+        let mut cards: Vec<Card> = vec![];
+
+        for _ in 0..decks {
+            for suite in ["s", "h", "d", "c"] {
+                for card in ["2", "3", "4", "5", "6", "7", "8", "9", "T", "J", "Q", "K", "A"] {
+                    cards.push(Card::from_short(card.to_owned() + suite).unwrap());
+                }
+            }
+        };
+
+        Deck {
+            cards,
+            dealt: vec![]
+        }
+    }
+
+    pub fn shuffle(&mut self) {
+        let cards = &mut self.cards;
+        cards.append(&mut self.dealt);
+        cards.shuffle(&mut thread_rng());
+    }
+
+    pub fn deal(&mut self) -> Option<Card> {
+        let card_opt = self.cards.pop();
+
+        match card_opt {
+            None => None,
+            Some(card) => {
+                self.dealt.push(card.clone());
+                Some(card)
+            }
+        }
     }
 }
