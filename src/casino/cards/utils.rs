@@ -4,10 +4,10 @@ use rand::seq::SliceRandom;
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Suite {
-    CLUBS,
-    DIAMONDS,
-    HEARTS,
-    SPADES
+    Clubs,
+    Diamonds,
+    Hearts,
+    Spades
 }
 
 impl fmt::Display for Suite {
@@ -18,12 +18,12 @@ impl fmt::Display for Suite {
 
 #[derive(Debug, PartialEq, Clone)]
 pub enum Rank {
-    ACE,
-    KING,
-    QUEEN,
-    JACK,
-    TEN,
-    NUMERAL(u8)
+    Ace,
+    King,
+    Queen,
+    Jack,
+    Ten,
+    Numeral(u8)
 }
 
 impl fmt::Display for Rank {
@@ -45,7 +45,7 @@ pub enum InvalidArgument { InvalidArgument }
 impl Card {
     pub fn new(suite: Suite, rank: Rank) -> Result<Self, InvalidArgument> {
         let rank_short = match rank {
-            Rank::NUMERAL(num) => {
+            Rank::Numeral(num) => {
                 if num <= 1 || num >= 10 {
                     return Err(InvalidArgument::InvalidArgument);
                 }
@@ -79,20 +79,20 @@ impl Card {
         let short_suite  = split_short.next().unwrap().to_string();
 
         let suite = match short_suite.to_lowercase().as_str() {
-            "c" => Suite::CLUBS,
-            "d" => Suite::DIAMONDS,
-            "h" => Suite::HEARTS,
-            "s" => Suite::SPADES,
+            "c" => Suite::Clubs,
+            "d" => Suite::Diamonds,
+            "h" => Suite::Hearts,
+            "s" => Suite::Spades,
             _ => {return Err(InvalidArgument::InvalidArgument);}
         };
 
         let rank = match short_rank.to_uppercase().as_str() {
-            "A" => Rank::ACE,
-            "K" => Rank::KING,
-            "Q" => Rank::QUEEN,
-            "J" => Rank::JACK,
-            "T" => Rank::TEN,
-            _ => Rank::NUMERAL(short_rank.parse::<u8>().unwrap())
+            "A" => Rank::Ace,
+            "K" => Rank::King,
+            "Q" => Rank::Queen,
+            "J" => Rank::Jack,
+            "T" => Rank::Ten,
+            _ => Rank::Numeral(short_rank.parse::<u8>().unwrap())
         };
 
         Self::new(suite, rank)

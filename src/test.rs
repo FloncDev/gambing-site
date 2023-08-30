@@ -3,32 +3,32 @@ use crate::casino::cards::utils::*;
 
 #[test]
 fn test_card_traits() {
-    let mut my_card: Card = Card::new(Suite::DIAMONDS, Rank::ACE).unwrap();
+    let mut my_card: Card = Card::new(Suite::Diamonds, Rank::Ace).unwrap();
 
-    assert_eq!(my_card.suite, Suite::DIAMONDS);
-    assert_eq!(my_card.rank, Rank::ACE);
+    assert_eq!(my_card.suite, Suite::Diamonds);
+    assert_eq!(my_card.rank, Rank::Ace);
     assert_eq!(my_card.short, String::from("Ad"));
 
-    my_card = Card::new(Suite::CLUBS, Rank::NUMERAL(3)).unwrap();
+    my_card = Card::new(Suite::Clubs, Rank::Numeral(3)).unwrap();
 
-    assert_eq!(my_card.rank, Rank::NUMERAL(3));
+    assert_eq!(my_card.rank, Rank::Numeral(3));
     assert_eq!(my_card.short, String::from("3c"));
 
-    my_card = Card::new(Suite::HEARTS, Rank::TEN).unwrap();
+    my_card = Card::new(Suite::Hearts, Rank::Ten).unwrap();
 
     assert_eq!(my_card.short, String::from("Th"));
 }
 
 #[test]
 fn test_card_error() {
-    let my_card = Card::new(Suite::CLUBS, Rank::NUMERAL(1));
+    let my_card = Card::new(Suite::Clubs, Rank::Numeral(1));
 
     match my_card {
         Ok(_) => panic!(),
         Err(e) => {assert_eq!(e, InvalidArgument::InvalidArgument)}
     };
 
-    let my_card = Card::new(Suite::CLUBS, Rank::NUMERAL(10));
+    let my_card = Card::new(Suite::Clubs, Rank::Numeral(10));
 
     match my_card {
         Ok(_) => panic!(),
@@ -40,12 +40,12 @@ fn test_card_error() {
 fn test_from_short() {
     let my_card = Card::from_short(String::from("Kh")).unwrap();
 
-    assert_eq!(my_card, Card::new(Suite::HEARTS, Rank::KING).unwrap());
+    assert_eq!(my_card, Card::new(Suite::Hearts, Rank::King).unwrap());
 
 
     let my_card = Card::from_short(String::from("7s")).unwrap();
 
-    assert_eq!(my_card, Card::new(Suite::SPADES, Rank::NUMERAL(7)).unwrap());
+    assert_eq!(my_card, Card::new(Suite::Spades, Rank::Numeral(7)).unwrap());
 
 }
 
