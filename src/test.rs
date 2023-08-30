@@ -58,3 +58,49 @@ fn test_from_short_error() {
         Err(e) => assert_eq!(e, InvalidArgument::InvalidArgument)
     };
 }
+
+#[test]
+fn test_deck() {
+    let my_deck = Deck::new(1);
+
+    assert_eq!(my_deck.cards.len(), 52);
+    assert_eq!(my_deck.dealt.len(), 0);
+
+
+    let my_deck = Deck::new(2);
+
+    assert_eq!(my_deck.cards.len(), 104);
+    assert_eq!(my_deck.dealt.len(), 0);
+}
+
+#[test]
+fn test_deck_deal() {
+    let mut my_deck = Deck::new(1);
+
+    let my_card = my_deck.deal().unwrap();
+
+    assert_eq!(my_deck.cards.len(), 51);
+    assert_eq!(my_deck.dealt.len(), 1);
+
+    assert!(!my_deck.cards.contains(&my_card));
+    assert!(my_deck.dealt.contains(&my_card));
+}
+
+#[test]
+fn test_deck_shuffle() {
+    let mut my_deck = Deck::new(1);
+    let copy = my_deck.clone();
+
+    assert_eq!(my_deck, copy);
+
+    my_deck.shuffle();
+
+    assert_ne!(my_deck, copy);
+
+    // Test that when shuffling, all cards from 'dealt' are put back into 'cards'
+    my_deck.deal();
+    my_deck.shuffle();
+
+    assert_eq!(my_deck.cards.len(), 52);
+    assert_eq!(my_deck.dealt.len(), 0);
+}
